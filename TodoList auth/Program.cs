@@ -26,6 +26,8 @@ namespace TodoList_auth
 
             builder.Services.AddScoped<ITodoListRepository, EFTodoListRepository>();
 
+            builder.Services.AddScoped<IEntryRepository, EFEntryRepository>();
+
             builder.Services.Configure<SMTPConfigModel>(builder.Configuration.GetSection("SMTPConfig"));
 
             builder.Services.AddControllersWithViews();

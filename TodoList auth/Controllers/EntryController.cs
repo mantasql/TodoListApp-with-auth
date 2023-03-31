@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TodoList_auth.Repo;
 
 namespace TodoList_auth.Controllers
 {
     public class EntryController : Controller
     {
-        public IActionResult Index()
+        private readonly IEntryRepository _repository;
+
+        public IActionResult Index([FromRoute] int id)
         {
-            return View();
+            return View(_repository.TodoEntries.Where(x => x.TodoListId == id));
         }
     }
 }
