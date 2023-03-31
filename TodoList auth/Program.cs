@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TodoList_auth.Areas.Identity.Data;
 using TodoList_auth.Models;
 using TodoList_auth.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace TodoList_auth
 {
