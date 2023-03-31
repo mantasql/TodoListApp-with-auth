@@ -4,6 +4,8 @@ using TodoList_auth.Areas.Identity.Data;
 using TodoList_auth.Models;
 using TodoList_auth.Services;
 using Microsoft.AspNetCore.Identity;
+using TodoList_auth.DataAccess;
+using TodoList_auth.Repo;
 
 namespace TodoList_auth
 {
@@ -16,11 +18,17 @@ namespace TodoList_auth
 
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
+            builder.Services.AddDbContext<TodoListContext>(options => options.UseSqlServer(connectionString));
+
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+            builder.Services.AddScoped<ITodoListRepository, EFTodoListRepository>();
+
             builder.Services.Configure<SMTPConfigModel>(builder.Configuration.GetSection("SMTPConfig"));
+
+            builder.Services.AddControllersWithViews();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
@@ -36,6 +44,7 @@ namespace TodoList_auth
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -43,6 +52,8 @@ namespace TodoList_auth
             app.UseAuthorization();
 
             app.MapRazorPages();
+
+            app.MapControllerRoute(name: "default", pattern: "{controller=Todo}/{action=Index}/{id?}");
 
             app.Run();
         }
